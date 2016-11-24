@@ -10,10 +10,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.itheima.googleplay.R;
+import com.itheima.googleplay.base.BaseFragment;
+import com.itheima.googleplay.base.LoadingPager;
 import com.itheima.googleplay.constant.Constants;
 import com.itheima.googleplay.factory.FragmentFactory;
 
@@ -31,17 +34,46 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.strip_main)
     PagerSlidingTabStrip stripMain;
     private ActionBarDrawerToggle toggle;
+    private BaseFragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
         initActionBar();
         initView();
         initActionBarToggle();
         initData();
+        initLisenter();
+    }
+
+    private void initLisenter() {
+        final ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                LoadingPager loadingPager = fragment.getLoadingPager();
+                loadingPager.triggerLoadData();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        };
+        stripMain.setOnPageChangeListener(onPageChangeListener);
+        vpMian.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                onPageChangeListener.onPageSelected(0);
+                vpMian.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
     }
 
     private void initData() {
@@ -54,14 +86,18 @@ public class MainActivity extends AppCompatActivity {
 
     private class MainFragmentAdapter extends FragmentStatePagerAdapter {
 
+
         public MainFragmentAdapter(FragmentManager fm) {
             super(fm);
         }
 
         @Override
         public Fragment getItem(int position) {
-            return FragmentFactory.createFragment(position);
+            fragment = FragmentFactory.createFragment(position);
+
+            return fragment;
         }
+
 
         @Override
         public int getCount() {
@@ -99,6 +135,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         //flMenuMain.setLayoutParams(new DrawerLayout.LayoutParams(DensityUtils.getWindowWidth()/2, ViewGroup.LayoutParams.MATCH_PARENT));
+       // drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        //DrawerUtil.setDrawerLeftEdgeSize(this,drawerLayout,0.3f);
+        //drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
     private void initActionBar() {

@@ -1,7 +1,6 @@
 package com.itheima.googleplay.factory;
 
-import android.support.v4.app.Fragment;
-
+import com.itheima.googleplay.base.BaseFragment;
 import com.itheima.googleplay.fragment.AppFragment;
 import com.itheima.googleplay.fragment.CategoryFragment;
 import com.itheima.googleplay.fragment.GameFragment;
@@ -23,9 +22,9 @@ public class FragmentFactory  {
     public static final int FRAGMENT_CATEGORY = 5;//分类
     public static final int FRAGMENT_HOT = 6;//排行
 
-    public static Fragment createFragment (int position){
+    public static BaseFragment createFragment (int position){
         //定义Fragment对象
-        Fragment fragment = null;
+        BaseFragment fragment = null;
 
         switch (position) {
             case FRAGMENT_HOME://返回 首页 对应的fragment

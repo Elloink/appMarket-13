@@ -38,12 +38,12 @@
             android:layout_width="match_parent"
             android:layout_height="40dp" />
 
-        <android.support.v4.view.ViewPager
+        <com.itheima.googleplay.view.TopNewsViewPager
             android:id="@+id/vp_mian"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </android.support.v4.view.ViewPager>
+        </com.itheima.googleplay.view.TopNewsViewPager>
 
 
     </LinearLayout>
