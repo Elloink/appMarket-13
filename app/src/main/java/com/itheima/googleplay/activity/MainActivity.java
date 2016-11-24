@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     PagerSlidingTabStrip stripMain;
     private ActionBarDrawerToggle toggle;
     private BaseFragment fragment;
+    private LoadingPager loadingPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         initActionBarToggle();
         initData();
         initLisenter();
+
+
     }
 
     private void initLisenter() {
@@ -57,7 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                LoadingPager loadingPager = fragment.getLoadingPager();
+                // 如果根据position找到对应页面的Fragment
+                BaseFragment baseFragment = FragmentFactory.mCacheFragments.get(position);
+                loadingPager = baseFragment.getLoadingPager();
                 loadingPager.triggerLoadData();
             }
 
@@ -82,6 +87,9 @@ public class MainActivity extends AppCompatActivity {
         MainFragmentAdapter adapter = new MainFragmentAdapter(getSupportFragmentManager());
         vpMian.setAdapter(adapter);
         stripMain.setViewPager(vpMian);
+
+
+
     }
 
     private class MainFragmentAdapter extends FragmentStatePagerAdapter {

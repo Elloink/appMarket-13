@@ -9,6 +9,9 @@ import com.itheima.googleplay.fragment.HotFragment;
 import com.itheima.googleplay.fragment.RecommendFragment;
 import com.itheima.googleplay.fragment.SubjectFragment;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by acer on 2016/11/23.
  */
@@ -22,9 +25,15 @@ public class FragmentFactory  {
     public static final int FRAGMENT_CATEGORY = 5;//分类
     public static final int FRAGMENT_HOT = 6;//排行
 
+    public static Map<Integer, BaseFragment> mCacheFragments = new HashMap<>();
     public static BaseFragment createFragment (int position){
         //定义Fragment对象
         BaseFragment fragment = null;
+        //优先缓存集合中取出来
+        if (mCacheFragments.containsKey(position)) {
+            fragment = mCacheFragments.get(position);
+            return fragment;
+        }
 
         switch (position) {
             case FRAGMENT_HOME://返回 首页 对应的fragment
@@ -52,6 +61,7 @@ public class FragmentFactory  {
             default:
                 break;
         }
+        mCacheFragments.put(position, fragment);
         return fragment;
     }
 }
