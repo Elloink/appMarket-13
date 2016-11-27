@@ -22,7 +22,7 @@ public abstract class LoadingPager extends FrameLayout {
     public static final int STATE_ERROR = 1;
     public static final int STATE_EMPTY = 2;
     public static final int STATE_SUCCESS = 3;
-    public int currentState = STATE_LOADING; //默认的加载状态是正在加载
+    public int  currentState= STATE_LOADING; //默认的加载状态是正在加载
     private View pagerLoading;
     private View pagerError;
     private View pagerEmptey;

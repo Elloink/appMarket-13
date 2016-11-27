@@ -11,7 +11,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.ViewTreeObserver;
-import android.widget.FrameLayout;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.itheima.googleplay.R;
@@ -25,8 +24,7 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Bind(R.id.fl_menu_main)
-    FrameLayout flMenuMain;
+
     @Bind(R.id.vp_mian)
     ViewPager vpMian;
     @Bind(R.id.drawer_layout)

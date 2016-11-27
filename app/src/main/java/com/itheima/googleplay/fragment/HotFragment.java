@@ -22,7 +22,9 @@ public class HotFragment extends BaseFragment {
         Random random = new Random();
         int i = random.nextInt(3);
         return results[i];
+
     }
+
 
     @Override
     protected View BaseInitView() {
