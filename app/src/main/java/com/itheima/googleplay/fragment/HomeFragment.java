@@ -8,38 +8,34 @@ import com.itheima.googleplay.adapter.HomeAdapter;
 import com.itheima.googleplay.base.BaseFragment;
 import com.itheima.googleplay.base.LoadingPager;
 import com.itheima.googleplay.bean.HomeBean;
-import com.itheima.googleplay.constant.Constants;
+import com.itheima.googleplay.protocal.HomeProtocal;
 import com.itheima.googleplay.utils.UIUtils;
 
 import java.io.IOException;
 import java.util.List;
-
-import okhttp3.Call;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * Created by acer on 2016/11/23.
  */
 
 public class HomeFragment extends BaseFragment {
-    private Object dataFromServer;
-    private String url = Constants.URLS.BASEURL + "home?index=0";
+    private String url ;
     private HomeBean datas;
     private List<HomeBean.ListBean> lists;
     private List<String> pictures;
+    private LoadingPager.DataResult result;
 
     @Override
     protected LoadingPager.DataResult baseInitData() {
-        datas = getDataFromServer();
-
-        if (datas != null) {
-            if (datas.list.size()>0) {
-                return LoadingPager.DataResult.STATE_SUCCESS;
-            }
+        HomeProtocal homeProtocal = new HomeProtocal();
+        try {
+            datas = homeProtocal.loadData("home",0);
+            result = checkResult(datas);
+        } catch (IOException e) {
+            result = LoadingPager.DataResult.STATE_ERROR;
         }
-        return LoadingPager.DataResult.STATE_ERROR;
+
+        return result;
     }
 
     @Override
@@ -55,26 +51,6 @@ public class HomeFragment extends BaseFragment {
         }
 
         return listView;
-    }
-
-    public HomeBean getDataFromServer() {
-        try {
-            //打开浏览器
-            OkHttpClient okHttpClient = new OkHttpClient();
-            //创建请求
-            Request request = new Request.Builder().url(url).get().build();
-            //发送请求
-            Call call = okHttpClient.newCall(request);
-            //返回数据
-            Response response = call.execute();
-            if (response.isSuccessful()) {
-                String body = response.body().string();
-                return parseBody(body);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     private HomeBean parseBody(String body) {

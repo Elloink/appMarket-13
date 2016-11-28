@@ -1,5 +1,6 @@
 package com.itheima.googleplay.adapter.holder;
 
+import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 import com.itheima.googleplay.R;
 import com.itheima.googleplay.base.BaseHolder;
 import com.itheima.googleplay.bean.HomeBean;
+import com.itheima.googleplay.constant.Constants;
 import com.itheima.googleplay.utils.StringUtils;
 import com.itheima.googleplay.utils.UIUtils;
 
@@ -38,6 +40,26 @@ public class HomeHolder extends BaseHolder {
         itemAppinfoRbStars.setRating(bean.stars);
         itemAppTvSize.setText(StringUtils.formatFileSize(bean.size));
         itemAppinfoTvDes.setText(bean.des);
+
+        Uri uri = Uri.parse(Constants.URLS.IMGBASEURL+bean.iconUrl);
+
+       /* ImageDecodeOptions decodeOptions = ImageDecodeOptions.newBuilder()
+                .build();
+
+        ImageRequest request = ImageRequestBuilder
+                .newBuilderWithSource(uri)
+                *//*.setImageDecodeOptions(decodeOptions)
+                .setAutoRotateEnabled(true)
+                .setLocalThumbnailPreviewsEnabled(true)
+                .setLowestPermittedRequestLevel(ImageRequest.RequestLevel.FULL_FETCH)
+                .setProgressiveRenderingEnabled(false)*//*
+                .build();
+
+        ImagePipeline imagePipeline = Fresco.getImagePipeline();
+        DataSource<CloseableReference<CloseableImage>> closeableReferenceDataSource = imagePipeline.fetchDecodedImage(request, UIUtils.getContext());
+        */
+        itemAppinfoIvIcon.setImageURI(uri);
+
 
     }
 
