@@ -18,7 +18,7 @@ public class HomeProtocal extends BaseProtocal<HomeBean> {
     @Override
     protected HomeBean parseJson(String resJsonString) {
         Gson gson = new Gson();
-        HomeBean homeBean = gson.fromJson(resJsonString, HomeBean.class);
+        HomeBean homeBean = gson.fromJson(resJsonString,HomeBean.class);
         return homeBean;
     }
 }

@@ -21,4 +21,5 @@ public class HomeAdapter extends SuperBaseAdapter {
     public BaseHolder getSpecialBaseHolder() {
         return new HomeHolder();
     }
+
 }

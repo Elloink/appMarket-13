@@ -43,21 +43,6 @@ public class HomeHolder extends BaseHolder {
 
         Uri uri = Uri.parse(Constants.URLS.IMGBASEURL+bean.iconUrl);
 
-       /* ImageDecodeOptions decodeOptions = ImageDecodeOptions.newBuilder()
-                .build();
-
-        ImageRequest request = ImageRequestBuilder
-                .newBuilderWithSource(uri)
-                *//*.setImageDecodeOptions(decodeOptions)
-                .setAutoRotateEnabled(true)
-                .setLocalThumbnailPreviewsEnabled(true)
-                .setLowestPermittedRequestLevel(ImageRequest.RequestLevel.FULL_FETCH)
-                .setProgressiveRenderingEnabled(false)*//*
-                .build();
-
-        ImagePipeline imagePipeline = Fresco.getImagePipeline();
-        DataSource<CloseableReference<CloseableImage>> closeableReferenceDataSource = imagePipeline.fetchDecodedImage(request, UIUtils.getContext());
-        */
         itemAppinfoIvIcon.setImageURI(uri);
 
 

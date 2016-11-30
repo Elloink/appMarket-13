@@ -22,7 +22,7 @@ public abstract class LoadingPager extends FrameLayout {
     public static final int STATE_ERROR = 1;
     public static final int STATE_EMPTY = 2;
     public static final int STATE_SUCCESS = 3;
-    public int  currentState= STATE_LOADING; //默认的加载状态是正在加载
+    public int currentState = STATE_LOADING; //默认的加载状态是正在加载
     private View pagerLoading;
     private View pagerError;
     private View pagerEmptey;
@@ -64,6 +64,7 @@ public abstract class LoadingPager extends FrameLayout {
 
         refreshViewByState();
     }
+
     /**
      * @des 根据状态刷新ui(决定LoadingPager到底提供四种视图中的哪一种)
      * @called 1.LoadingPager创建的时候
@@ -73,19 +74,19 @@ public abstract class LoadingPager extends FrameLayout {
     private void refreshViewByState() {
         if (currentState == STATE_LOADING) {
             pagerLoading.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             pagerLoading.setVisibility(View.GONE);
         }
 
         if (currentState == STATE_ERROR) {
             pagerError.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             pagerError.setVisibility(View.GONE);
         }
 
         if (currentState == STATE_EMPTY) {
             pagerEmptey.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             pagerEmptey.setVisibility(View.GONE);
         }
 
@@ -97,7 +98,7 @@ public abstract class LoadingPager extends FrameLayout {
         if (pagerSuccess != null) {
             if (currentState == STATE_SUCCESS) {
                 pagerSuccess.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 pagerSuccess.setVisibility(View.GONE);
             }
         }
@@ -107,6 +108,7 @@ public abstract class LoadingPager extends FrameLayout {
 
     /**
      * 因为成功的视图只有在子类中才能处理所以抽象
+     *
      * @return
      */
     public abstract View initSuccessView();
@@ -118,10 +120,11 @@ public abstract class LoadingPager extends FrameLayout {
      * 触发加载数据
      */
     public void triggerLoadData() {
+
         /**
          * 如果当前状态时加载成功或者正在加载，则不回加载
          */
-        if (currentState!=STATE_SUCCESS) {
+        if (currentState != STATE_SUCCESS) {
             LogUtils.e("触发数据加载。。。triggerLoadData");
             //重新加载数据是耗时任务需要在子线程里实现
             // TODO: 2016/11/24
@@ -136,45 +139,46 @@ public abstract class LoadingPager extends FrameLayout {
 
         }
 
+
     }
 
-    private class ReLoadData implements Runnable{
+    private class ReLoadData  implements Runnable  {
 
         @Override
         public void run() {
-            DataResult dataResult = initData();
+                DataResult dataResult = initData();
 
-            currentState = dataResult.getState();
+                currentState = dataResult.getState();
 
-            //让主线程去更新ui
-            ThreadUtil.runInUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    refreshViewByState();
-                }
-            });
+                //让主线程去更新ui
+                ThreadUtil.runInUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshViewByState();
+                    }
+                });
 
-            reLoadDataTask = null;
-        }
+                reLoadDataTask = null;
+            }
     }
 
-    public enum DataResult {
+        public enum DataResult {
        /* public static final int STATE_ERROR = 1;
         public static final int STATE_EMPTY = 2;
         public static final int STATE_SUCCESS = 3;*/
 
-        STATE_SUCCESS(3),STATE_ERROR(1),STATE_EMPTY(2);
+            STATE_SUCCESS(3), STATE_ERROR(1), STATE_EMPTY(2);
 
-        public int getState() {
-            return state;
-        }
-        private int state;
+            public int getState() {
+                return state;
+            }
 
-        DataResult(int i) {
-            this.state = i;
+            private int state;
+
+            DataResult(int i) {
+                this.state = i;
+            }
         }
+
+
     }
-
-
-
-}

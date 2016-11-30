@@ -28,6 +28,12 @@ import okhttp3.Response;
  */
 
 public abstract class BaseProtocal <BEANTYPE> {
+    private NetWorkListenter netWorkListenter;
+
+    public void setNetWorkListenter(NetWorkListenter netWorkListenter) {
+        this.netWorkListenter = netWorkListenter;
+    }
+
     public BEANTYPE loadData(String tab, int index) throws IOException {
         BEANTYPE data = null;
         data = loadDataFromMem(tab,index);
@@ -111,6 +117,7 @@ public abstract class BaseProtocal <BEANTYPE> {
         Request request = new Request.Builder().get().url(url).build();
         //放入浏览器并打开
         Response response = okHttpClient.newCall(request).execute();
+
         if (response.isSuccessful()) {
             String json = response.body().string();
             Gson gson = new Gson();
@@ -122,6 +129,10 @@ public abstract class BaseProtocal <BEANTYPE> {
 
             //写数据到本地
             BufferedWriter writer = null;
+
+            if (netWorkListenter != null) {
+                netWorkListenter.success();
+            }
             try {
                 File cacheFile = getCacheFile(tab, index);
                 writer = new BufferedWriter(new FileWriter(cacheFile));
@@ -133,6 +144,9 @@ public abstract class BaseProtocal <BEANTYPE> {
                 writer.write(json);
             } catch (IOException e) {
                 e.printStackTrace();
+                if (netWorkListenter != null) {
+                    netWorkListenter.failure();
+                }
             } finally {
                 IOUtils.close(writer);
             }
@@ -152,4 +166,10 @@ public abstract class BaseProtocal <BEANTYPE> {
      * @des 一共有3种解析情况(结点解析, Bean解析, 泛型解析)
      */
     protected abstract BEANTYPE parseJson(String resJsonString);
+
+    public interface NetWorkListenter{
+        void success();
+
+        void failure();
+    }
 }
