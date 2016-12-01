@@ -71,7 +71,7 @@ public class HomeFragment extends BaseFragment {
             final HomeAdapter adapter = new HomeAdapter(lists);
             listView.setAdapter(adapter);
 
-            BaseFooter footer = new BaseFooter(homeProtocal, "home", 1,lists,adapter);
+            BaseFooter footer = new BaseFooter(homeProtocal, "home", 1, lists, adapter);
             View view = footer.getView();
             listView.addFooterView(view);
 
@@ -82,7 +82,6 @@ public class HomeFragment extends BaseFragment {
 
         return listView;
     }
-
 
 
     private HomeBean parseBody(String body) {
@@ -108,8 +107,8 @@ public class HomeFragment extends BaseFragment {
 
             @Override
             public Object instantiateItem(ViewGroup container, int position) {
-                position = position%pictures.size();
-                String url = Constants.URLS.IMGBASEURL+pictures.get(position);
+                position = position % pictures.size();
+                String url = Constants.URLS.IMGBASEURL + pictures.get(position);
                 SimpleDraweeView simpleDraweeView = new SimpleDraweeView(UIUtils.getContext());
                 ViewPager.LayoutParams layoutParams = new ViewPager.LayoutParams();
                 layoutParams.height = ViewPager.LayoutParams.WRAP_CONTENT;
@@ -158,7 +157,7 @@ public class HomeFragment extends BaseFragment {
         return view;
     }
 
-    private class AutoScrollTask implements Runnable{
+    private class AutoScrollTask implements Runnable {
         /**
          * 开始滚动
          */
@@ -178,7 +177,7 @@ public class HomeFragment extends BaseFragment {
         @Override
         public void run() {
             positon = viewPager.getCurrentItem();
-            if (positon == pictures.size()-1) {
+            if (positon == pictures.size() - 1) {
                 positon = -1;
             }
             positon++;

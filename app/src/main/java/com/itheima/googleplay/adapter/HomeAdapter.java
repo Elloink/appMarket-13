@@ -18,7 +18,7 @@ public class HomeAdapter extends SuperBaseAdapter {
     }
 
     @Override
-    public BaseHolder getSpecialBaseHolder() {
+    public BaseHolder getSpecialBaseHolder(int position) {
         return new HomeHolder();
     }
 

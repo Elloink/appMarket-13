@@ -22,6 +22,7 @@ public abstract class BaseHolder<HOLDERVIEWTYPE> {
         refreshHolderView(data);
     }
 
+
     public abstract void refreshHolderView(HOLDERVIEWTYPE data) ;
 
     public abstract View initHolderView();

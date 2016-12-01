@@ -2,11 +2,13 @@ package com.itheima.googleplay.base;
 
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.widget.Toast;
 
 import com.itheima.googleplay.R;
 import com.itheima.googleplay.adapter.HomeAdapter;
 import com.itheima.googleplay.bean.HomeBean;
 import com.itheima.googleplay.protocal.HomeProtocal;
+import com.itheima.googleplay.utils.LogUtils;
 import com.itheima.googleplay.utils.ThreadUtil;
 import com.itheima.googleplay.utils.UIUtils;
 
@@ -25,12 +27,36 @@ public class BaseFooter {
     private String tab;
     private HomeAdapter adapter;
 
-    public BaseFooter(HomeProtocal homeProtocal, String tab, int index, List<HomeBean.ListBean> list,HomeAdapter adapter) {
+    public BaseFooter(HomeProtocal homeProtocal, String tab, int index, List<HomeBean.ListBean> list, HomeAdapter adapter) {
         this.homeProtocal = homeProtocal;
         this.index = index;
         this.list = list;
         this.tab = tab;
         this.adapter = adapter;
+
+        homeProtocal.setNetWorkListenter(new BaseProtocal.NetWorkListenter() {
+            @Override
+            public void success() {
+                ThreadUtil.runInUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(UIUtils.getContext(), "加载成功", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                LogUtils.e("加载更多成功");
+            }
+
+            @Override
+            public void failure() {
+                ThreadUtil.runInUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(UIUtils.getContext(), "加载失败", Toast.LENGTH_SHORT).show();
+                    }
+                    });
+                LogUtils.e("加载更多成功");
+            }
+        });
     }
 
     @NonNull

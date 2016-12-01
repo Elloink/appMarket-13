@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 BaseFragment baseFragment = FragmentFactory.mCacheFragments.get(position);
                 loadingPager = baseFragment.getLoadingPager();
                 loadingPager.triggerLoadData();
+                loadingPager.triggerLoadData();
             }
 
             @Override

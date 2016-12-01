@@ -144,9 +144,6 @@ public abstract class BaseProtocal <BEANTYPE> {
                 writer.write(json);
             } catch (IOException e) {
                 e.printStackTrace();
-                if (netWorkListenter != null) {
-                    netWorkListenter.failure();
-                }
             } finally {
                 IOUtils.close(writer);
             }
@@ -155,6 +152,9 @@ public abstract class BaseProtocal <BEANTYPE> {
 
         }else{
             //打开链接失败
+            if (netWorkListenter != null) {
+                netWorkListenter.failure();
+            }
             return null;
         }
     }
